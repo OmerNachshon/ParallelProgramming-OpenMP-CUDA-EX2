@@ -23,15 +23,14 @@ int main(int argc, char *argv[])
     double *arr = (double *)malloc(size * sizeof(double));
 
     // no need to use shared memory because each index is used once
-#pragma omp parallel for default(none)
+#pragma omp parallel for
     for (i = 0; i < size; i++)
         arr[i] = rand() / RAND_MAX;
     double answer = 0;
 
     // using +sum reduction should cover the addition
     //  no write to array so shared memory is not required
-#pragma omp parallel for reduction(+ \
-                                   : sum)
+#pragma omp parallel for
     for (i = 0; i < size; i++)
         answer += heavy(arr[i], loopSize);
 
