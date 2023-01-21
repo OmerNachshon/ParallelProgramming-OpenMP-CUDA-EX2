@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
 {
     clock_t begin = clock();
     int i;
-    int size = 100000;
-    int loopSize = 100000;
+    int size = atoi(argv[1]);
+    int loopSize = atoi(argv[1]);
     double *arr = (double *)malloc(size * sizeof(double));
     for (i = 0; i < size; i++)
         arr[i] = rand() / RAND_MAX;

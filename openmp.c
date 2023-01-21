@@ -18,8 +18,8 @@ int main(int argc, char *argv[])
 {
     clock_t begin = clock();
     int i;
-    int size = 1000;
-    int loopSize = 1000;
+    int size = atoi(argv[1]);
+    int loopSize = atoi(argv[2]);
     double *arr = (double *)malloc(size * sizeof(double));
 
     // no need to use shared memory because each index is used once
