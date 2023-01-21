@@ -2,8 +2,18 @@
 #include <cstdio>
 #include <cstdlib>
 
+__device__ double heavy(double data, int loopSize) {
+    double sum = 0;       
+    for (int i = 0; i < loopSize; i++)
+        sum += cos(exp(sin(data * (i % 11))))/ loopSize;
 
+     return sum;             
+}
 
+#if !defined(__CUDA_ARCH__) || __CUDA_ARCH__ >= 600
+#else
+__device__ double atomicAdd(double* a, double b) { return b; }
+#endif
 
 
 __global__ void heavyKernel(double* arr, int size, int loopSize, double* answer) {
@@ -15,19 +25,9 @@ __global__ void heavyKernel(double* arr, int size, int loopSize, double* answer)
 
 }
 
-
-double heavy(double data, int loopSize) {
-    double sum = 0;       
-    for (int i = 0; i < loopSize; i++)
-        sum += cos(exp(sin(data * (i % 11))))/ loopSize;
-
-     return sum;             
-}
-
-
 int main(int argc, char *argv[]) {
-    int size = atoi(argv[1]);
-    int loopSize = atoi(argv[2]);
+    int size = 1000;
+    int loopSize = 1000;
     double* arr = (double*)malloc(size * sizeof(double));
     double* dev_arr;
     double* dev_answer;
